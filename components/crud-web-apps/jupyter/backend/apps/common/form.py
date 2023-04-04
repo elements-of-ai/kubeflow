@@ -12,6 +12,11 @@ SERVER_TYPE_ANNOTATION = "notebooks.kubeflow.org/server-type"
 HEADERS_ANNOTATION = "notebooks.kubeflow.org/http-headers-request-set"
 URI_REWRITE_ANNOTATION = "notebooks.kubeflow.org/http-rewrite-uri"
 
+# Add bitfusion support
+BITFUSION_AUTO_ANNOTATION = "auto-management/bitfusion"
+BITFUSION_OS_ANNOTATION = "bitfusion-client/os"
+BITFUSION_VERSION_ANNOTATION = "bitfusion-client/version"
+
 
 def get_form_value(body, defaults, body_field, defaults_field=None,
                    optional=False):
@@ -248,6 +253,18 @@ def set_notebook_gpus(notebook, body, defaults):
     limits[vendor] = num
 
     container["resources"]["limits"] = limits
+
+    # Add bitfusion support
+    if vendor.startswith("bitfusion"):
+        notebook_annotations = notebook["metadata"]["annotations"]
+        notebook_annotations[BITFUSION_AUTO_ANNOTATION] = "injection"
+        notebook_annotations[BITFUSION_OS_ANNOTATION] = "ubuntu20"
+        notebook_annotations[BITFUSION_VERSION_ANNOTATION] = "450"
+        container["command"]=["/init"]
+        contexts = container.get("securityContext",{})
+        contexts["runAsUser"] = 0
+        contexts["allowPrivilegeEscalation"] = False
+        container["securityContext"] = contexts
 
 
 def set_notebook_configurations(notebook, body, defaults):
