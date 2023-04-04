@@ -448,6 +448,14 @@ func generateStatefulSet(instance *v1beta1.Notebook) *appsv1.StatefulSet {
 		(*l)[k] = v
 	}
 
+	// copy all the bitfusion annotations in Notebook to the pod
+	a := &ss.Spec.Template.ObjectMeta.Annotations
+	for k, v := range instance.ObjectMeta.Annotations {
+		if strings.Contains(k, "bitfusion") {
+			(*a)[k] = v
+		}
+	}
+
 	podSpec := &ss.Spec.Template.Spec
 	container := &podSpec.Containers[0]
 	if container.WorkingDir == "" {

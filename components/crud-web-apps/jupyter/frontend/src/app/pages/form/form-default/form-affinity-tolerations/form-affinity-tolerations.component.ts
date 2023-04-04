@@ -12,7 +12,21 @@ export class FormAffinityTolerationsComponent implements OnInit {
   @Input() tolerationGroups: TolerationGroup[];
   @Input() affinityConfigs: AffinityConfig[];
 
-  constructor() {}
+  public vendorsNums = {};
+  public vendorinfo = "";
+  public gpusType = [];
 
-  ngOnInit() {}
+  constructor(public backend: JWABackendService) {}
+
+  ngOnInit() {
+    this.backend.getGPUCount().subscribe(count => { 
+      this.vendorsNums = new Object(count);
+      (Object.keys(this.vendorsNums)).forEach((key) => {
+        this.vendorinfo += this.vendorsNums[key] + ' ' + key;
+        this.gpusType.push(key);
+      });
+      
+    });
+    
+  }
 }
