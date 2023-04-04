@@ -19,11 +19,14 @@ export class FormAffinityTolerationsComponent implements OnInit {
   constructor(public backend: JWABackendService) {}
 
   ngOnInit() {
-    this.backend.getAllGPUResource().subscribe(count => { 
+    this.backend.getGPUCount().subscribe(count => { 
       this.vendorsNums = new Object(count);
       (Object.keys(this.vendorsNums)).forEach((key) => {
         this.vendorinfo += this.vendorsNums[key] + ' ' + key;
         this.gpusType.push(key);
       });
+      
+    });
+    
   }
 }
