@@ -78,7 +78,6 @@ export class JWABackendService extends BackendService {
   }
   
 
-  // Added by Juan, 2023-04-04
   public getAllGPUResource(): Observable<string[]> {
     // Get installed GPU count
     const url = `api/gpus`;

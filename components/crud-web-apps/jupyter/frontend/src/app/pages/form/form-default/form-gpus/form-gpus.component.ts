@@ -50,7 +50,7 @@ export class FormGpusComponent implements OnInit {
       this.installedVendors = new Set(vendors);
     });
 
-    // Added by Juan, 2023-04-04
+    
     this.backend.getAllGPUResource().subscribe(count => { 
       this.vendorsNums = new Object(count);
       (Object.keys(this.vendorsNums)).forEach((key) => {
@@ -62,7 +62,6 @@ export class FormGpusComponent implements OnInit {
 
   // Vendor handling
   public vendorTooltip(vendor: GPUVendor) {
-    // Modify by Juan, 2023-04-04
     if (!this.installedVendors.has(vendor.limitsKey)) {
       return $localize`There are currently no ${vendor.uiName} GPUs in your cluster.`
     }

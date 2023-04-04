@@ -65,14 +65,13 @@ def get_gpu_vendors():
     installed_resources = set()
     nodes = api.list_nodes().items
 
-    # Get gpu resource in all nodes
-    # Added by Juan at 2023-04-04
+    # Added to get gpu resource in all nodes
     all_gpu_resource = {}
 
     for node in nodes:
         installed_resources.update(node.status.capacity.keys())
 
-        # Added for get NFD Label, 2023-04-04
+        # Added to get NFD Label
         nfd_label = "nvidia.com/gpu.product" 
         if nfd_label in node.metadata.labels:
             gpu_product = node.metadata.labels["nvidia.com/gpu.product"]
