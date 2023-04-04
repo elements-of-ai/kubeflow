@@ -76,6 +76,18 @@ export class JWABackendService extends BackendService {
       map(data => data.vendors),
     );
   }
+  
+
+  // Added by Juan, 2023-04-04
+  public getAllGPUResource(): Observable<string[]> {
+    // Get installed GPU count
+    const url = `api/gpus`;
+
+    return this.http.get<JWABackendResponse>(url).pipe(
+      catchError(error => this.handleError(error)),
+      map(data => data.gpuslist),
+    );
+  }
 
   // POST
   public createNotebook(notebook: NotebookFormObject): Observable<string> {
